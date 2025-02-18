@@ -60,7 +60,13 @@ class Meter():
             for n, lv, v in zip(self.name, self._last_value, self.value())])
 
 
-def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=True):
+def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=True, device=None):
+    """
+    Run a single training or evaluation epoch.
+    """
+    if device is None:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
     time_meter = Meter(name='Time', cum=True)
     loss_meter = Meter(name='Loss', cum=False)
     error_meter = Meter(name='Error', cum=False)
@@ -73,16 +79,16 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
         print('Evaluating')
 
     end = time.time()
-    for i, (input, target) in enumerate(loader):
+    for i, (inputs, targets) in enumerate(loader):
         if train:
             model.zero_grad()
             optimizer.zero_grad()
 
             # Forward pass
-            input = input.cuda()
-            target = target.cuda()
-            output = model(input)
-            loss = criterion(output, target)
+            inputs = inputs.to(device)
+            targets = targets.to(device)
+            output = model(inputs)
+            loss = criterion(output, targets)
 
             # Backward pass
             loss.backward()
@@ -92,14 +98,14 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
         else:
             with torch.no_grad():
                 # Forward pass
-                input = input.cuda()
-                target = target.cuda()
-                output = model(input)
-                loss = criterion(output, target)
+                inputs = inputs.to(device)
+                targets = targets.to(device)
+                output = model(inputs)
+                loss = criterion(output, targets)
 
         # Accounting
         _, predictions = torch.topk(output, 1)
-        error = 1 - torch.eq(predictions, target).float().mean()
+        error = 1 - torch.eq(predictions, targets).float().mean()
         batch_time = time.time() - end
         end = time.time()
 
@@ -140,6 +146,9 @@ def train(data, save, valid_size=5000, seed=None,
         wd (float) - weight decay
         momentum (float) - momentum
     """
+    # Set device (CUDA if available, else CPU)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Using device:", device)
 
     if seed is not None:
         torch.manual_seed(seed)
@@ -170,7 +179,6 @@ def train(data, save, valid_size=5000, seed=None,
     ])
 
     # Split training into train and validation - needed for calibration
-    #
     # IMPORTANT! We need to use the same validation set for temperature
     # scaling, so we're going to save the indices for later
     train_set = tv.datasets.CIFAR100(data, train=True, transform=train_transforms, download=True)
@@ -191,11 +199,10 @@ def train(data, save, valid_size=5000, seed=None,
         block_config=block_config,
         num_classes=100
     )
-    # Wrap model if multiple gpus
-    if torch.cuda.device_count() > 1:
-        model_wrapper = torch.nn.DataParallel(model).cuda()
-    else:
-        model_wrapper = model.cuda()
+    # Use DataParallel if multiple GPUs are available
+    if device.type == "cuda" and torch.cuda.device_count() > 1:
+        model = torch.nn.DataParallel(model)
+    model_wrapper = model.to(device)
     print(model_wrapper)
 
     criterion = nn.CrossEntropyLoss()
@@ -214,6 +221,7 @@ def train(data, save, valid_size=5000, seed=None,
             epoch=epoch,
             n_epochs=n_epochs,
             train=True,
+            device=device
         )
         valid_results = run_epoch(
             loader=valid_loader,
@@ -223,6 +231,7 @@ def train(data, save, valid_size=5000, seed=None,
             epoch=epoch,
             n_epochs=n_epochs,
             train=False,
+            device=device
         )
 
         # Determine if model is the best
