@@ -1,0 +1,4 @@
+Model,Accuracy,NLL,ECE
+Isotonic_scaling,0.48,1.8906,0.0254
+Temperature_scaling,40.82,2.2176,0.0392
+Platt_scaling,40.60,2.2095,0.0154

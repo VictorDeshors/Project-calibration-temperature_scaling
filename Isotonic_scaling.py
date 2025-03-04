@@ -3,7 +3,7 @@ from torch import nn, optim
 from torch.nn import functional as F
 import numpy as np 
 from sklearn.isotonic import IsotonicRegression
-
+from save_results import save_in_csv
 
 class ModelWithIsotonic(nn.Module):
     """
@@ -96,12 +96,16 @@ class ModelWithIsotonic(nn.Module):
             self.isotonic_regressors.append(ir)
 
         # Calculate NLL and ECE after Isotonic scaling
-        after_Isotonic_nll = nll_criterion(self.Isotonic_scale(logits), labels).item()
-        after_Isotonic_ece = ece_criterion(self.Isotonic_scale(logits), labels).item()
-        ### print les regressors
-        # print("Optimal f: ", self.isotonic_regressors, '\n')
+        calibrated_logits = self.Isotonic_scale(logits)
+        nll = nll_criterion(calibrated_logits, labels).item()
+        ece = ece_criterion(calibrated_logits, labels).item()
+        accuracy = (calibrated_logits.argmax(dim=1) == labels).float().mean().item()
 
-        print('After Isotonic_scaling - NLL: %.3f, ECE: %.3f' % (after_Isotonic_nll, after_Isotonic_ece), '\n')
+
+        print('After Isotonic_scaling - NLL: %.3f, ECE: %.3f' % (nll, ece), '\n')
+
+        # Save results to CSV
+        save_in_csv(accuracy, nll, ece, "Isotonic_scaling")
 
         return self
 

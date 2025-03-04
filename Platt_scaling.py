@@ -1,7 +1,7 @@
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
-
+from save_results import save_in_csv
 
 class ModelWithPlatt(nn.Module):
     """
@@ -68,13 +68,21 @@ class ModelWithPlatt(nn.Module):
         optimizer.step(eval)
 
         # Calculate NLL and ECE after temperature scaling
-        after_Platt_nll = nll_criterion(self.Platt_scale(logits), labels).item()
-        after_Platt_ece = ece_criterion(self.Platt_scale(logits), labels).item()
+        calibrated_logits = self.Platt_scale(logits)
+        nll = nll_criterion(calibrated_logits, labels).item()
+        ece = ece_criterion(calibrated_logits, labels).item()
+        accuracy = (calibrated_logits.argmax(1) == labels).float().mean().item() * 100.0
+
         print('Optimal a: %.3f' % self.a.item())
         print('Optimal b: %.3f' % self.b.item())
-        print('After Platt_scaling - NLL: %.3f, ECE: %.3f' % (after_Platt_nll, after_Platt_ece), '\n')
+        print('After Platt_scaling - NLL: %.3f, ECE: %.3f' % (nll, ece), '\n')
+
+        # Save results to CSV
+        save_in_csv(accuracy, nll, ece, "Platt_scaling")
 
         return self
+        
+
 
 
 class _ECELoss(nn.Module):

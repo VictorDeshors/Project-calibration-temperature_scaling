@@ -1,7 +1,7 @@
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
-
+from save_results import save_in_csv
 
 class ModelWithTemperature(nn.Module):
     """
@@ -66,10 +66,16 @@ class ModelWithTemperature(nn.Module):
         optimizer.step(eval)
 
         # Calculate NLL and ECE after temperature scaling
-        after_temperature_nll = nll_criterion(self.temperature_scale(logits), labels).item()
-        after_temperature_ece = ece_criterion(self.temperature_scale(logits), labels).item()
+        calibrated_logits = self.temperature_scale(logits)
+        nll = nll_criterion(calibrated_logits, labels).item()
+        ece = ece_criterion(calibrated_logits, labels).item()
+        accuracy = (calibrated_logits.argmax(1) == labels).float().mean().item() * 100.0
+
         print('Optimal temperature: %.3f' % self.temperature.item())
-        print('After temperature - NLL: %.3f, ECE: %.3f' % (after_temperature_nll, after_temperature_ece), '\n')
+        print('After temperature - NLL: %.3f, ECE: %.3f' % (nll, ece), '\n')
+
+        # Save results to CSV
+        save_in_csv(accuracy, nll, ece, "Temperature_scaling")
 
         return self
 
