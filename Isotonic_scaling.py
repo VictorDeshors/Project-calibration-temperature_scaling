@@ -1,37 +1,63 @@
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
+import numpy as np 
+from sklearn.isotonic import IsotonicRegression
 
 
-class ModelWithTemperature(nn.Module):
+class ModelWithIsotonic(nn.Module):
     """
-    A thin decorator, which wraps a model with temperature scaling
+    A thin decorator, which wraps a model with Isotonic scaling
     model (nn.Module):
         A classification neural network
         NB: Output of the neural network should be the classification logits,
             NOT the softmax (or log softmax)!
     """
     def __init__(self, model):
-        super(ModelWithTemperature, self).__init__()
+        super(ModelWithIsotonic, self).__init__()
         self.model = model
-        self.temperature = nn.Parameter(torch.ones(1) * 1.5)
+        # one isotonic regression for each class
+        self.isotonic_regressors = None
+        self.num_classes = None
+
 
     def forward(self, input):
         logits = self.model(input)
-        return self.temperature_scale(logits)
+        return self.Isotonic_scale(logits)
 
-    def temperature_scale(self, logits):
+    def Isotonic_scale(self, logits):
         """
-        Perform temperature scaling on logits
+        Perform Isotonic scaling on logits
         """
-        # Expand temperature to match the size of logits
-        temperature = self.temperature.unsqueeze(1).expand(logits.size(0), logits.size(1))
-        return logits / temperature
+        if self.isotonic_regressors is None:
+            return logits
+        
+        # Convert logits to probabilities
+        probs = F.softmax(logits, dim=1).cpu().numpy()
+        calibrated_probs = np.zeros_like(probs)
+        
+        # Isotonic regression for each class probability
+        for c in range(self.num_classes):
+            calibrated_probs[:, c] = self.isotonic_regressors[c].predict(probs[:, c])
+        
+        # Convert back to tensor
+        calibrated_probs = torch.tensor(calibrated_probs, device=logits.device)
+        
+        # Normalize to ensure valid probability distribution
+        calibrated_probs = calibrated_probs / calibrated_probs.sum(dim=1, keepdim=True)
+        
+        # Clamp to prevent numerical issues
+        calibrated_probs = torch.clamp(calibrated_probs, min=1e-7, max=1-1e-7)
+        
+        # Convert probabilities to logits
+        calibrated_logits = torch.log(calibrated_probs)
+        
+        return calibrated_logits
 
     # This function probably should live outside of this class, but whatever
-    def set_temperature(self, valid_loader):
+    def set_f(self, valid_loader):
         """
-        Tune the tempearature of the model (using the validation set).
+        Tune the function f of the model (using the validation set).
         We're going to set it to optimize NLL.
         valid_loader (DataLoader): validation set loader
         """
@@ -51,25 +77,31 @@ class ModelWithTemperature(nn.Module):
             logits = torch.cat(logits_list).cuda()
             labels = torch.cat(labels_list).cuda()
 
-        # Calculate NLL and ECE before temperature scaling
-        before_temperature_nll = nll_criterion(logits, labels).item()
-        before_temperature_ece = ece_criterion(logits, labels).item()
-        print('\n Before temperature - NLL: %.3f, ECE: %.3f' % (before_temperature_nll, before_temperature_ece))
+        # Calculate NLL and ECE before Isotonic scaling
+        before_Isotonic_nll = nll_criterion(logits, labels).item()
+        before_Isotonic_ece = ece_criterion(logits, labels).item()
+        print('\n Before Isotonic_Scaling - NLL: %.3f, ECE: %.3f' % (before_Isotonic_nll, before_Isotonic_ece))
 
-        # Next: optimize the temperature w.r.t. NLL
-        optimizer = optim.LBFGS([self.temperature], lr=0.01, max_iter=50)
+        # Apply isotonic regression for each class
+        probs = F.softmax(logits, dim=1).cpu().numpy()
+        labels_onehot = F.one_hot(labels, logits.size(1)).float().cpu().numpy()
+        
+        self.num_classes = logits.size(1)
+        self.isotonic_regressors = []
+        
+        # For each class, fit isotonic regression between predicted probs and actual labels
+        for c in range(self.num_classes):
+            ir = IsotonicRegression(out_of_bounds='clip')
+            ir.fit(probs[:, c], labels_onehot[:, c])
+            self.isotonic_regressors.append(ir)
 
-        def eval():
-            loss = nll_criterion(self.temperature_scale(logits), labels)
-            loss.backward()
-            return loss
-        optimizer.step(eval)
+        # Calculate NLL and ECE after Isotonic scaling
+        after_Isotonic_nll = nll_criterion(self.Isotonic_scale(logits), labels).item()
+        after_Isotonic_ece = ece_criterion(self.Isotonic_scale(logits), labels).item()
+        ### print les regressors
+        # print("Optimal f: ", self.isotonic_regressors, '\n')
 
-        # Calculate NLL and ECE after temperature scaling
-        after_temperature_nll = nll_criterion(self.temperature_scale(logits), labels).item()
-        after_temperature_ece = ece_criterion(self.temperature_scale(logits), labels).item()
-        print('Optimal temperature: %.3f' % self.temperature.item())
-        print('After temperature - NLL: %.3f, ECE: %.3f' % (after_temperature_nll, after_temperature_ece), '\n')
+        print('After Isotonic_scaling - NLL: %.3f, ECE: %.3f' % (after_Isotonic_nll, after_Isotonic_ece), '\n')
 
         return self
 
@@ -77,7 +109,7 @@ class ModelWithTemperature(nn.Module):
 class _ECELoss(nn.Module):
     """
     Calculates the Expected Calibration Error of a model.
-    (This isn't necessary for temperature scaling, just a cool metric).
+    (This isn't necessary for Isotonic scaling, just a cool metric).
 
     The input to this loss is the logits of a model, NOT the softmax scores.
 
