@@ -321,7 +321,7 @@ def train(data, valid_size=5000, seed=None, n_epochs=200, batch_size=64,
         # Log metrics to CSV file
         with open(metrics_path, 'a', newline='') as csvfile:
             metrics_writer = csv.writer(csvfile)
-            metrics_writer.writerow([epoch, ece[0], oe[0], acc])  # Assuming these metrics are tensors or lists
+            metrics_writer.writerow([epoch, ece.item(), oe.item(), acc])  # Assuming these metrics are tensors or lists
 
 
     print('Done!')
