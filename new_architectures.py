@@ -115,7 +115,7 @@ class MLPCIFAR100(nn.Module):
     
 
 ############ Définition du modèle ResNet adapté pour CIFAR-100 ############
-def get_resnet_model(resnet_type="resnet18", pretrained=False, num_classes=100):
+def get_resnet_model(resnet_type="resnet18", pretrained=True, num_classes=100):
     """
     Charge un modèle ResNet de torchvision et l'adapte pour CIFAR-100
     """
@@ -142,36 +142,64 @@ def get_resnet_model(resnet_type="resnet18", pretrained=False, num_classes=100):
     return model
 
 # ############ Définition du modèle VGG adapté pour CIFAR-100 ############
-# def get_vgg_cifar100(pretrained=False):
-#     """
-#     Crée un modèle VGG adapté pour le dataset CIFAR100.
+def get_vgg_cifar100(pretrained=False):
+    """
+    Crée un modèle VGG adapté pour le dataset CIFAR100.
     
-#     Args:
-#         pretrained (bool): Si True, utilise les poids pré-entraînés sur ImageNet
-#                            Sinon, initialise avec des poids aléatoires
-                           
-#     Returns:
-#         Un modèle VGG adapté pour CIFAR100
-#     """
-#     # Charger le modèle VGG16 (avec ou sans pré-entraînement)
-#     if pretrained:
-#         vgg = tv.models.vgg16(weights=tv.models.VGG16_Weights.DEFAULT)
-#     else:
-#         vgg = tv.models.vgg16(weights=None)
+    Args:
+        pretrained (bool): Si True, utilise les poids pré-entraînés sur ImageNet
+                          Sinon, initialise avec des poids aléatoires
+                       
+    Returns:
+        Un modèle VGG adapté pour CIFAR100
+    """
+    # Charger le modèle VGG16 (avec ou sans pré-entraînement)
+    if pretrained:
+        vgg = tv.models.vgg16(weights=tv.models.VGG16_Weights.DEFAULT)
+    else:
+        vgg = tv.models.vgg16(weights=None)
     
-#     # Remplacer le classificateur pour CIFAR100 (100 classes)
-#     # Après les 5 couches de pooling sur des images 32x32, nous obtenons des features de taille 1x1
-#     vgg.classifier = nn.Sequential(
-#         nn.Linear(512, 512),
-#         nn.ReLU(True),
-#         nn.Dropout(0.5),
-#         nn.Linear(512, 512),
-#         nn.ReLU(True),
-#         nn.Dropout(0.5),
-#         nn.Linear(512, 100)  # 100 classes pour CIFAR100
-#     )
+    # Calculer la taille de sortie après les couches convolutives
+    # Pour des images 32x32 passées dans VGG16:
+    # Après 5 niveaux de maxpool (chacun divisant la taille par 2)
+    # La taille spatiale sera: 32 ÷ (2^5) = 32 ÷ 32 = 1x1
+    # Avec 512 canaux, la taille totale sera: 512 × 1 × 1 = 512
     
-#     return vgg
+    # Créer une classe personnalisée qui va adapter VGG16 pour CIFAR100
+    class VGG16CIFAR100(nn.Module):
+        def __init__(self, original_vgg):
+            super(VGG16CIFAR100, self).__init__()
+            # Conserver les couches convolutives
+            self.features = original_vgg.features
+            
+            # Remplacer le classificateur pour CIFAR100
+            self.classifier = nn.Sequential(
+                nn.Linear(512, 512),  # Pour des images 32x32, la sortie des features est 512
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(512, 512),
+                nn.ReLU(True),
+                nn.Dropout(0.5),
+                nn.Linear(512, 100)  # 100 classes pour CIFAR100
+            )
+            
+            # Initialiser les poids du nouveau classificateur
+            for m in self.classifier.modules():
+                if isinstance(m, nn.Linear):
+                    nn.init.normal_(m.weight, 0, 0.01)
+                    nn.init.constant_(m.bias, 0)
+        
+        def forward(self, x):
+            # Passer à travers les couches convolutives
+            x = self.features(x)
+            # Aplatir le tenseur
+            x = torch.flatten(x, 1)
+            # Passer à travers le classificateur
+            x = self.classifier(x)
+            return x
+    
+    # Créer et retourner le modèle adapté
+    return VGG16CIFAR100(vgg)
 
 
 
@@ -243,7 +271,7 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
     return time_meter.value(), loss_meter.value(), error_meter.value()
 
 
-def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=None,
+def train(data, save, model='densenet', pretrained=True, valid_size=5000, seed=None,
           depth=40, growth_rate=12, n_epochs=300, batch_size=64,
           lr=0.1, wd=0.0001, momentum=0.9):
     """
@@ -322,16 +350,16 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
             raise Exception('Invalid depth')
         block_config = [(depth - 4) // 6 for _ in range(3)]
         
-        # Make model, criterion, and optimizer
-        model = DenseNet(
+        # Make model_orig, criterion, and optimizer
+        model_orig = DenseNet(
             growth_rate=growth_rate,
             block_config=block_config,
             num_classes=100
         )
         
         if device.type == "cuda" and torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
-        model_wrapper = model.to(device)
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
         print(model_wrapper)
 
         criterion = nn.CrossEntropyLoss()
@@ -339,11 +367,11 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
         scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[0.5 * n_epochs, 0.75 * n_epochs], gamma=0.1)
 
     elif model == 'lenet':
-        model = LeNetCIFAR100()
+        model_orig = LeNetCIFAR100()
 
         if device.type == "cuda" and torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
-        model_wrapper = model.to(device)
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
         print(model_wrapper)
         
         # LeNet est plus simple, peut utiliser un lr plus élevé
@@ -363,15 +391,15 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
 
     elif model == 'resnet18' or model == 'resnet34':
 
-        model = get_resnet_model(
+        model_orig = get_resnet_model(
             resnet_type=model, 
             pretrained=pretrained, 
             num_classes=100
         )
 
         if device.type == "cuda" and torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
-        model_wrapper = model.to(device)
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
         print(model_wrapper)
         
         # ResNet18/34 bénéficient d'un lr initial plus élevé
@@ -386,15 +414,15 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
         scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
 
     elif model == 'resnet50':
-        model = get_resnet_model(
+        model_orig = get_resnet_model(
             resnet_type="resnet50", 
             pretrained=pretrained, 
             num_classes=100
         )
 
         if device.type == "cuda" and torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
-        model_wrapper = model.to(device)
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
         print(model_wrapper)
         
         # Pour les modèles plus profonds comme ResNet50
@@ -408,38 +436,37 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
         # Cosine scheduler pour les modèles profonds
         scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
 
-    # elif model == 'vgg16':
-    #     model = get_vgg_cifar100(pretrained=pretrained)
-
-    #     if device.type == "cuda" and torch.cuda.device_count() > 1:
-    #         model = torch.nn.DataParallel(model)
-    #     model_wrapper = model.to(device)
-    #     print(model_wrapper)
-        
-    #     # VGG bénéficie d'un learning rate plus faible et plus de régularisation
-    #     optimizer = optim.SGD(
-    #         model_wrapper.parameters(), 
-    #         lr=0.01, 
-    #         momentum=0.9, 
-    #         weight_decay=5e-4,
-    #         nesterov=True
-    #     )
-    #     # VGG marche bien avec un scheduler qui réduit progressivement le lr
-    #     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
-    
-    else: #MLP model
-        model = MLPCIFAR100()
+    elif model == 'vgg16':
+        model_orig = get_vgg_cifar100(pretrained=pretrained)
 
         if device.type == "cuda" and torch.cuda.device_count() > 1:
-            model = torch.nn.DataParallel(model)
-        model_wrapper = model.to(device)
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
+        print(model_wrapper)
+        
+        # VGG bénéficie d'un learning rate plus faible et plus de régularisation
+        optimizer = optim.SGD(
+            model_wrapper.parameters(), 
+            lr=0.01, 
+            momentum=0.9, 
+            weight_decay=5e-4,
+            nesterov=True
+        )
+        # VGG marche bien avec un scheduler qui réduit progressivement le lr
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
+    
+    else: #MLP model
+        model_orig = MLPCIFAR100()
+
+        if device.type == "cuda" and torch.cuda.device_count() > 1:
+            model_orig = torch.nn.DataParallel(model_orig)
+        model_wrapper = model_orig.to(device)
         print(model_wrapper)
 
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model_wrapper.parameters(), lr=lr, momentum=momentum, nesterov=True)
         scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[0.5 * n_epochs, 0.75 * n_epochs], gamma=0.1)
 
-    #
 
     
 
@@ -448,7 +475,7 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
 
     ############### TRAINING ###############
     best_error = 1
-    model_name = model._get_name() + ('_pretrained' if pretrained else '_random')
+    model_name = model + ('_pretrained' if pretrained else '_random')
     print('Training', model_name, 'for', n_epochs, 'epochs')
     for epoch in range(1, n_epochs + 1):
         scheduler.step()
@@ -479,13 +506,17 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
             best_error = valid_error[0]
             print("Epoch =", epoch, "lr =", lr, 'New best error: %.4f' % best_error)
 
-            # Ajouter un suffixe indiquant si le modèle était préentraîné ou non
-            pretrained_suffix = "_pretrained" if pretrained else "_random"
 
             # Quand on sauvegarde le modèle, on inclut aussi les indices de validation
-            # et l'information sur le préentraînement
-            torch.save(model.state_dict(), os.path.join(save, model_name + '.pth'))
-            torch.save(valid_indices, os.path.join(save, model_name + '_valid_indices.pth'))
+            save_path = os.path.join(save, model)
+
+            # Crée les répertoires s'ils n'existent pas déjà
+            os.makedirs(save_path, exist_ok=True)
+
+            # Sauvegarde du modèle et des indices de validation
+            torch.save(model_orig.state_dict(), os.path.join(save_path, 'model.pth'))
+            torch.save(valid_indices, os.path.join(save_path, 'valid_indices.pth'))
+
 
     print('Done!')
 

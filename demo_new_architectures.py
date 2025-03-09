@@ -8,11 +8,11 @@ from temperature_scaling import ModelWithTemperature
 import new_architectures as new_arch
 
 
-def demo(data, save, model='densenet', pretrained=False, depth=40, growth_rate=12, batch_size=256):
+def demo(data, save, model='densenet', pretrained=True, depth=40, growth_rate=12, batch_size=256):
     """
     Applies temperature scaling to a trained model.
 
-    Takes a pretrained DenseNet-CIFAR100 model, and a validation set
+    Takes a pretrained CIFAR-100 model, and a validation set
     (parameterized by indices on train set).
     Applies temperature scaling, and saves a temperature scaled version.
 
@@ -27,13 +27,13 @@ def demo(data, save, model='densenet', pretrained=False, depth=40, growth_rate=1
     """
 
     # Load model state dict
-    model_filename = os.path.join(save,str(model)+'.pth')
+    model_filename = os.path.join(save, model, 'model.pth')
     if not os.path.exists(model_filename):
         raise RuntimeError('Cannot find file %s to load' % model_filename)
     state_dict = torch.load(model_filename)
 
     # Load validation indices
-    valid_indices_filename = os.path.join(save,str(model)+'_valid_indices.pth')
+    valid_indices_filename = os.path.join(save, model, 'valid_indices.pth')
     if not os.path.exists(valid_indices_filename):
         raise RuntimeError('Cannot find file %s to load' % valid_indices_filename)
     valid_indices = torch.load(valid_indices_filename)
@@ -74,8 +74,8 @@ def demo(data, save, model='densenet', pretrained=False, depth=40, growth_rate=1
             num_classes=100
         ).cuda()
 
-    # elif model == 'vgg16':
-    #     model = get_vgg_cifar100(pretrained=pretrained).cuda()
+    elif model == 'vgg16':
+        orig_model = new_arch.get_vgg_cifar100(pretrained=pretrained).cuda()
     
     else: #MLP model
         orig_model = new_arch.MLPCIFAR100().cuda()
@@ -88,7 +88,7 @@ def demo(data, save, model='densenet', pretrained=False, depth=40, growth_rate=1
 
     # Tune the model temperature, and save the results
     orig_model.set_temperature(valid_loader)
-    model_filename = os.path.join(save, str(model) + '_with_temperature.pth')
+    model_filename = os.path.join(save, model, 'model_with_temperature.pth')
     torch.save(orig_model.state_dict(), model_filename)
     print('Temperature scaled model saved to %s' % model_filename)
     print('Done!')
