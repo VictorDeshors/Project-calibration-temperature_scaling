@@ -13,10 +13,10 @@ import torch
 import torchvision as tv
 from torch import nn, optim
 from torch.utils.data.sampler import SubsetRandomSampler
-from models import DenseNet
 from torchvision.models import ResNet
 from torchvision.models import VGG
 from torch.functional import F  
+import csv
 
 ################### Not to be changed ###################
 class Meter():
@@ -107,7 +107,13 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
         print('Training')
     else:
         model.eval()
+        ece_crit = _ECELoss().cuda()
+        oe_crit = _OE().cuda()
+        logits_list = []
+        labels_list = []
         print('Evaluating')
+
+    
 
     end = time.time()
     for i, (inputs, targets) in enumerate(loader):
@@ -133,12 +139,18 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
                 targets = targets.to(device)
                 output = model(inputs)
                 loss = criterion(output, targets)
+                logits_list.append(output)
+                labels_list.append(targets)
+
+                # ece = ece_crit(output, targets)
+                # oe = oe_crit(output, targets)
 
         # Accounting
         _, predictions = torch.topk(output, 1)
         error = 1 - torch.eq(predictions, targets).float().mean()
         batch_time = time.time() - end
         end = time.time()
+
 
         # Log errors
         time_meter.update(batch_time)
@@ -152,10 +164,21 @@ def run_epoch(loader, model, criterion, optimizer, epoch=0, n_epochs=0, train=Tr
         #     str(error_meter),
         # ]))
 
-    return time_meter.value(), loss_meter.value(), error_meter.value()
+    if not train:
+        logits = torch.cat(logits_list).cuda()
+        labels = torch.cat(labels_list).cuda()
+
+        ece = ece_crit(logits, labels)
+        oe = oe_crit(logits, labels)
+        accuracy = (logits.argmax(1) == labels).float().mean().item() * 100.0
+
+        return time_meter.value(), loss_meter.value(), error_meter.value(), ece, oe, accuracy
+
+    else : 
+        return time_meter.value(), loss_meter.value(), error_meter.value()
 
 
-def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=None, n_epochs=200, batch_size=64,
+def train(data, valid_size=5000, seed=None, n_epochs=200, batch_size=64,
           lr=0.1):
     """
     A function to train on CIFAR-100.
@@ -183,12 +206,6 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
 
     if seed is not None:
         torch.manual_seed(seed)
-
-    # Make save directory
-    if not os.path.exists(save):
-        os.makedirs(save)
-    if not os.path.isdir(save):
-        raise Exception('%s is not a dir' % save)
 
 
     # Data transforms
@@ -249,10 +266,24 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
         gamma=0.5  # divise par 2 à chaque étape
     )
 
+    # Quand on sauvegarde le modèle, on inclut aussi les indices de validation
+    save_path = "./experiment_mixup_training/save"
+
+    # Crée les répertoires s'ils n'existent pas déjà
+    os.makedirs(save_path, exist_ok=True)
+    
+
+    # Setup CSV file for metrics logging
+    model = "resnet34"
+
+    metrics_path = os.path.join(save_path, f"{model}_metrics.csv")
+    with open(metrics_path, 'w', newline='') as csvfile:
+        metrics_writer = csv.writer(csvfile)
+        metrics_writer.writerow(['epoch', 'ece', 'oe', 'acc'])  # Write headers
 
     ############### TRAINING ###############
     best_error = 1
-    model_name = model + ('_pretrained' if pretrained else '_random')
+    model_name = model 
     print('Training', model_name, 'for', n_epochs, 'epochs')
     for epoch in range(1, n_epochs + 1):
         scheduler.step()
@@ -278,24 +309,23 @@ def train(data, save, model='densenet', pretrained=False, valid_size=5000, seed=
         )
 
         # Determine if model is the best
-        _, _, valid_error = valid_results
+        _, _, valid_error, ece, oe, acc = valid_results
         if valid_error[0] < best_error:
             best_error = valid_error[0]
             print("Epoch =", epoch, "lr =", lr, 'New best error: %.4f' % best_error)
-
-
-            # Quand on sauvegarde le modèle, on inclut aussi les indices de validation
-            save_path = os.path.join(save, model)
-
-            # Crée les répertoires s'ils n'existent pas déjà
-            os.makedirs(save_path, exist_ok=True)
 
             # Sauvegarde du modèle et des indices de validation
             torch.save(model_orig.state_dict(), os.path.join(save_path, 'model.pth'))
             torch.save(valid_indices, os.path.join(save_path, 'valid_indices.pth'))
 
+        # Log metrics to CSV file
+        with open(metrics_path, 'a', newline='') as csvfile:
+            metrics_writer = csv.writer(csvfile)
+            metrics_writer.writerow([epoch, ece[0], oe[0], acc])  # Assuming these metrics are tensors or lists
+
 
     print('Done!')
+    return
 
 
 
@@ -370,7 +400,7 @@ class _OE(nn.Module):
             if prop_in_bin.item() > 0: #only proceed if the bin is not empty
                 accuracy_in_bin = accuracies[in_bin].float().mean()
                 avg_confidence_in_bin = confidences[in_bin].mean()
-                ece += torch.max(avg_confidence_in_bin - accuracy_in_bin, 0) * avg_confidence_in_bin * prop_in_bin
+                oe += torch.clamp(avg_confidence_in_bin - accuracy_in_bin, min=0.0) * avg_confidence_in_bin * prop_in_bin
 
         return oe
 
@@ -382,9 +412,6 @@ if __name__ == '__main__':
     Args:
         --data (str) - path to directory where data should be loaded from/downloaded
             (default $DATA_DIR)
-        --save (str) - path to save the model to (default /tmp)
-        --model (str) - name of model to use (default 'densenet', others : 'lenet', 'resnet18', 'resnet34', 'resnet50', 'vgg16')
-        --pretrained (bool) - use a pretrained model (default False)
 
         --valid_size (int) - size of validation set
         --seed (int) - manually set the random seed (default None)

@@ -1,0 +1,5 @@
+epoch,ece,oe,acc
+1,"tensor(0.0710, device='cuda:0')","tensor(0.0446, device='cuda:0')",6.89999982714653
+2,"tensor(0.0558, device='cuda:0')","tensor(0.0222, device='cuda:0')",12.299999594688416
+3,"tensor(0.0939, device='cuda:0')","tensor(0.0398, device='cuda:0')",18.09999942779541
+4,"tensor(0.1520, device='cuda:0')","tensor(0.0683, device='cuda:0')",21.7399999499321
