@@ -1,0 +1,10 @@
+Files already downloaded and verified
+Files already downloaded and verified
+Starting Mixup Training on CIFAR-100 with DenseNet (depth=40, growth_rate=12)...
+Epoch 1/200 | Train Loss: 4.2868 | Train Acc: 0.0560 | Val Acc: 0.0870 | ECE: 0.0139 | Adaptive ECE: 0.0140 | OE: 0.0003
+Epoch 2/200 | Train Loss: 4.0679 | Train Acc: 0.0890 | Val Acc: 0.1376 | ECE: 0.0356 | Adaptive ECE: 0.0317 | OE: 0.0013
+Epoch 3/200 | Train Loss: 3.9165 | Train Acc: 0.1170 | Val Acc: 0.1650 | ECE: 0.0255 | Adaptive ECE: 0.0243 | OE: 0.0004
+Epoch 4/200 | Train Loss: 3.6944 | Train Acc: 0.1607 | Val Acc: 0.2052 | ECE: 0.0369 | Adaptive ECE: 0.0348 | OE: 0.0022
+Epoch 5/200 | Train Loss: 3.6002 | Train Acc: 0.1798 | Val Acc: 0.2492 | ECE: 0.0527 | Adaptive ECE: 0.0514 | OE: 0.0006
+Epoch 6/200 | Train Loss: 3.4746 | Train Acc: 0.2067 | Val Acc: 0.2862 | ECE: 0.0574 | Adaptive ECE: 0.0563 | OE: 0.0004
+Epoch 7/200 | Train Loss: 3.3903 | Train Acc: 0.2242 | Val Acc: 0.2752 | ECE: 0.0549 | Adaptive ECE: 0.0560 | OE: 0.0000

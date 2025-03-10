@@ -5,7 +5,7 @@ import pandas as pd
 def save_in_csv(accuracy, nll, ece, model_name):
     
     # Save results to CSV
-    csv_path = "./save_results.csv"
+    csv_path = "./save_folder/save_results.csv"
     file_exists = os.path.isfile(csv_path)
     
     if file_exists:

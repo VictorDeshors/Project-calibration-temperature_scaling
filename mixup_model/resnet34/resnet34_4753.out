@@ -1,0 +1,6 @@
+Files already downloaded and verified
+Files already downloaded and verified
+Starting Mixup Training on CIFAR-100 with ResNet34 (pretrained=False)...
+Epoch 1/200 | Train Loss: 4.5422 | Train Acc: 0.0263 | Val Acc: 0.0528 | ECE: 0.0103 | Adaptive ECE: 0.0081 | OE: 0.0011
+Epoch 2/200 | Train Loss: 4.2123 | Train Acc: 0.0598 | Val Acc: 0.0996 | ECE: 0.0153 | Adaptive ECE: 0.0182 | OE: 0.0000
+Epoch 3/200 | Train Loss: 4.0201 | Train Acc: 0.0924 | Val Acc: 0.1540 | ECE: 0.0385 | Adaptive ECE: 0.0411 | OE: 0.0003

@@ -5,7 +5,7 @@ import torchvision as tv
 from torch.utils.data.sampler import SubsetRandomSampler
 from models import DenseNet
 from temperature_scaling import ModelWithTemperature
-import new_architectures as new_arch
+import train_new_architectures as new_arch
 
 
 def demo(data, save, model='densenet', pretrained=True, depth=40, growth_rate=12, batch_size=256):

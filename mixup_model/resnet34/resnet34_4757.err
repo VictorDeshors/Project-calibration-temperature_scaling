@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/mixup_training.py", line 336, in <module>
+    fire.Fire(train_model)
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/env/lib64/python3.9/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/env/lib64/python3.9/site-packages/fire/core.py", line 559, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/env/lib64/python3.9/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/env/lib64/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/env/lib64/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+TypeError: forward() missing 1 required positional argument: 'x'
