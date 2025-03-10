@@ -57,7 +57,7 @@ def plot_and_save(file_path, save_folder="mixup_model/plot_mixup"):
         if key in data:
             ax1.plot(epochs, data[key], label=key, linestyle="-", marker="o")
     
-    ax1.set_title("Premières métriques: Train Loss, Train Acc, Val Acc")
+    ax1.set_title("First metrics: Train Loss, Train Acc, Val Acc")
     ax1.grid(True)
     ax1.legend()
     
@@ -70,7 +70,7 @@ def plot_and_save(file_path, save_folder="mixup_model/plot_mixup"):
         if key in data:
             ax2.plot(epochs, data[key], label=key, linestyle="-", marker="o")
     
-    ax2.set_title("Dernières métriques: ECE, Adaptive ECE, OE")
+    ax2.set_title("Last metrics: ECE, Adaptive ECE, OE")
     ax2.grid(True)
     ax2.legend()
     
@@ -92,8 +92,18 @@ def plot_and_save(file_path, save_folder="mixup_model/plot_mixup"):
         
         # Tracer une ligne pour montrer l'évolution
         ax3.plot(data["ECE"], data["Val Acc"], color='gray', alpha=0.5, linestyle='-')
+        
+        # Ajouter une bissectrice
+        # Déterminer les limites min/max pour la bissectrice
+        all_values = data["ECE"] + data["Val Acc"]
+        min_val = min(all_values)
+        max_val = max(all_values)
+        
+        # Tracer la bissectrice y=x
+        ax3.plot([min_val, max_val], [min_val, max_val], 'r--', label="Bissectrice (y=x)", alpha=0.7)
+        ax3.legend()
     
-    ax3.set_title("Val Acc vs ECE (par epoch)")
+    ax3.set_title("Val Acc vs ECE (/epoch)")
     ax3.grid(True)
     
     # Sauvegarde en PDF
