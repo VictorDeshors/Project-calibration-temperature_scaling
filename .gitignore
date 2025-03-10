@@ -53,5 +53,5 @@ ENV/
 data/
 
 # logs
-save_folder/logs/
+# save_folder/logs/
 

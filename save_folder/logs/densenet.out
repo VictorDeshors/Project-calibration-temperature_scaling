@@ -1,0 +1,791 @@
+Using device: cuda
+Files already downloaded and verified
+Let's use 1 GPUs!
+DenseNet(
+  (features): Sequential(
+    (conv0): Conv2d(3, 24, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (denseblock1): _DenseBlock(
+      (denselayer1): _DenseLayer(
+        (norm1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(24, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer2): _DenseLayer(
+        (norm1): BatchNorm2d(36, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(36, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer3): _DenseLayer(
+        (norm1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(48, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer4): _DenseLayer(
+        (norm1): BatchNorm2d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(60, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer5): _DenseLayer(
+        (norm1): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(72, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer6): _DenseLayer(
+        (norm1): BatchNorm2d(84, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(84, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+    )
+    (transition1): _Transition(
+      (norm): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv): Conv2d(96, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    )
+    (denseblock2): _DenseBlock(
+      (denselayer1): _DenseLayer(
+        (norm1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(48, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer2): _DenseLayer(
+        (norm1): BatchNorm2d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(60, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer3): _DenseLayer(
+        (norm1): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(72, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer4): _DenseLayer(
+        (norm1): BatchNorm2d(84, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(84, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer5): _DenseLayer(
+        (norm1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(96, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer6): _DenseLayer(
+        (norm1): BatchNorm2d(108, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(108, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+    )
+    (transition2): _Transition(
+      (norm): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv): Conv2d(120, 60, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    )
+    (denseblock3): _DenseBlock(
+      (denselayer1): _DenseLayer(
+        (norm1): BatchNorm2d(60, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(60, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer2): _DenseLayer(
+        (norm1): BatchNorm2d(72, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(72, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer3): _DenseLayer(
+        (norm1): BatchNorm2d(84, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(84, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer4): _DenseLayer(
+        (norm1): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(96, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer5): _DenseLayer(
+        (norm1): BatchNorm2d(108, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(108, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+      (denselayer6): _DenseLayer(
+        (norm1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu1): ReLU(inplace=True)
+        (conv1): Conv2d(120, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (norm2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu2): ReLU(inplace=True)
+        (conv2): Conv2d(48, 12, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      )
+    )
+    (norm_final): BatchNorm2d(132, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (classifier): Linear(in_features=132, out_features=100, bias=True)
+)
+Training densenet_pretrained for 300 epochs
+Training
+Evaluating
+Epoch = 1 lr = 0.1 New best error: 0.9876
+Training
+Evaluating
+Epoch = 2 lr = 0.1 New best error: 0.9863
+Training
+Evaluating
+Epoch = 3 lr = 0.1 New best error: 0.9854
+Training
+Evaluating
+Epoch = 4 lr = 0.1 New best error: 0.9847
+Training
+Evaluating
+Epoch = 5 lr = 0.1 New best error: 0.9836
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 7 lr = 0.1 New best error: 0.9828
+Training
+Evaluating
+Epoch = 8 lr = 0.1 New best error: 0.9825
+Training
+Evaluating
+Epoch = 9 lr = 0.1 New best error: 0.9815
+Training
+Evaluating
+Epoch = 10 lr = 0.1 New best error: 0.9815
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 12 lr = 0.1 New best error: 0.9813
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 15 lr = 0.1 New best error: 0.9810
+Training
+Evaluating
+Epoch = 16 lr = 0.1 New best error: 0.9805
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 18 lr = 0.1 New best error: 0.9803
+Training
+Evaluating
+Epoch = 19 lr = 0.1 New best error: 0.9802
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 26 lr = 0.1 New best error: 0.9792
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 50 lr = 0.1 New best error: 0.9787
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 146 lr = 0.1 New best error: 0.9783
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Done!

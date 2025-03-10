@@ -1,0 +1,10 @@
+Files already downloaded and verified
+
+ Before temperature - NLL: 1.633, ECE: 0.100
+Optimal temperature: 1.244
+After temperature - NLL: 1.553, ECE: 0.049 
+
+Results saved to ./save_results.csv
+Temperature scaled model saved to /users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/save_folder/vgg16/model_with_temperature.pth
+Done!
+Completed temperature scaling for model: vgg16

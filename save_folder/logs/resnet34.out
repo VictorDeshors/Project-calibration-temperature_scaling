@@ -1,0 +1,776 @@
+Using device: cuda
+Files already downloaded and verified
+Let's use 1 GPUs!
+ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): Identity()
+  (layer1): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (3): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (3): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (4): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (5): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=100, bias=True)
+)
+Training resnet34_pretrained for 300 epochs
+Training
+Evaluating
+Epoch = 1 lr = 0.1 New best error: 0.9882
+Training
+Evaluating
+Epoch = 2 lr = 0.1 New best error: 0.9876
+Training
+Evaluating
+Epoch = 3 lr = 0.1 New best error: 0.9862
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 5 lr = 0.1 New best error: 0.9848
+Training
+Evaluating
+Epoch = 6 lr = 0.1 New best error: 0.9840
+Training
+Evaluating
+Epoch = 7 lr = 0.1 New best error: 0.9840
+Training
+Evaluating
+Epoch = 8 lr = 0.1 New best error: 0.9827
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 11 lr = 0.1 New best error: 0.9816
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 30 lr = 0.1 New best error: 0.9813
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 35 lr = 0.1 New best error: 0.9808
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 55 lr = 0.1 New best error: 0.9805
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 100 lr = 0.1 New best error: 0.9804
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 104 lr = 0.1 New best error: 0.9803
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 116 lr = 0.1 New best error: 0.9802
+Training
+Evaluating
+Epoch = 117 lr = 0.1 New best error: 0.9800
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 119 lr = 0.1 New best error: 0.9794
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 148 lr = 0.1 New best error: 0.9794
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 151 lr = 0.1 New best error: 0.9793
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 159 lr = 0.1 New best error: 0.9792
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 164 lr = 0.1 New best error: 0.9785
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 208 lr = 0.1 New best error: 0.9784
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 215 lr = 0.1 New best error: 0.9783
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 218 lr = 0.1 New best error: 0.9781
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 231 lr = 0.1 New best error: 0.9779
+Training
+Evaluating
+Epoch = 232 lr = 0.1 New best error: 0.9778
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 244 lr = 0.1 New best error: 0.9773
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 253 lr = 0.1 New best error: 0.9768
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 259 lr = 0.1 New best error: 0.9767
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 265 lr = 0.1 New best error: 0.9766
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 267 lr = 0.1 New best error: 0.9762
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 271 lr = 0.1 New best error: 0.9757
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Done!

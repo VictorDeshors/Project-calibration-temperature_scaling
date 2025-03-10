@@ -1,0 +1,719 @@
+Using device: cuda
+Files already downloaded and verified
+Let's use 1 GPUs!
+ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): Identity()
+  (layer1): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=100, bias=True)
+)
+Training resnet18_pretrained for 300 epochs
+Training
+Evaluating
+Epoch = 1 lr = 0.1 New best error: 0.9901
+Training
+Evaluating
+Epoch = 2 lr = 0.1 New best error: 0.9881
+Training
+Evaluating
+Epoch = 3 lr = 0.1 New best error: 0.9858
+Training
+Evaluating
+Epoch = 4 lr = 0.1 New best error: 0.9853
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 6 lr = 0.1 New best error: 0.9837
+Training
+Evaluating
+Epoch = 7 lr = 0.1 New best error: 0.9834
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 11 lr = 0.1 New best error: 0.9825
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 15 lr = 0.1 New best error: 0.9821
+Training
+Evaluating
+Epoch = 16 lr = 0.1 New best error: 0.9819
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 18 lr = 0.1 New best error: 0.9814
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 34 lr = 0.1 New best error: 0.9809
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 70 lr = 0.1 New best error: 0.9809
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 73 lr = 0.1 New best error: 0.9806
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 86 lr = 0.1 New best error: 0.9805
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 107 lr = 0.1 New best error: 0.9803
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 114 lr = 0.1 New best error: 0.9800
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 124 lr = 0.1 New best error: 0.9798
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 126 lr = 0.1 New best error: 0.9795
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 137 lr = 0.1 New best error: 0.9793
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 167 lr = 0.1 New best error: 0.9792
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 177 lr = 0.1 New best error: 0.9788
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 181 lr = 0.1 New best error: 0.9784
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 221 lr = 0.1 New best error: 0.9783
+Training
+Evaluating
+Epoch = 222 lr = 0.1 New best error: 0.9777
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 244 lr = 0.1 New best error: 0.9775
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 246 lr = 0.1 New best error: 0.9771
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 256 lr = 0.1 New best error: 0.9769
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 261 lr = 0.1 New best error: 0.9768
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 266 lr = 0.1 New best error: 0.9764
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Epoch = 272 lr = 0.1 New best error: 0.9762
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Training
+Evaluating
+Done!

@@ -1,0 +1,10 @@
+Files already downloaded and verified
+
+ Before temperature - NLL: 1.943, ECE: 0.040
+Optimal temperature: 0.890
+After temperature - NLL: 1.964, ECE: 0.079 
+
+Results saved to ./save_results.csv
+Temperature scaled model saved to /users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/save_folder/resnet34/model_with_temperature.pth
+Done!
+Completed temperature scaling for model: resnet34

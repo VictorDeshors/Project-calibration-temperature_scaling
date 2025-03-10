@@ -1,0 +1,10 @@
+Files already downloaded and verified
+
+ Before temperature - NLL: 1.660, ECE: 0.082
+Optimal temperature: 1.181
+After temperature - NLL: 1.613, ECE: 0.031 
+
+Results saved to ./save_results.csv
+Temperature scaled model saved to /users/eleves-b/2022/victor.deshors/Project_Deep/Project-calibration-temperature_scaling/save_folder/densenet/model_with_temperature.pth
+Done!
+Completed temperature scaling for model: densenet
