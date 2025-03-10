@@ -1,0 +1,10 @@
+Files already downloaded and verified
+
+ Before Platt_Scaling - NLL: 2.193, ECE: 0.038
+Optimal a: 0.815
+Optimal b: 1.000
+After Platt_scaling - NLL: 2.187, ECE: 0.045 
+
+Results saved to ./save_folder/save_results.csv
+Platt scaled model sved to ./save_folder/lenet/model_with_Platt.pth
+Done!

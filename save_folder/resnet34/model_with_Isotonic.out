@@ -1,0 +1,8 @@
+Files already downloaded and verified
+
+ Before Isotonic_Scaling - NLL: 1.169, ECE: 0.101
+After Isotonic_scaling - NLL: 0.915, ECE: 0.052 
+
+Results saved to ./save_folder/save_results.csv
+Temperature scaled model saved to ./save_folder/resnet34/model_with_Isotonic.pth
+Done!

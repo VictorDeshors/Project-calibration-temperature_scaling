@@ -1,0 +1,10 @@
+Files already downloaded and verified
+
+ Before Platt_Scaling - NLL: 2.031, ECE: 0.206
+Optimal a: 0.402
+Optimal b: 1.000
+After Platt_scaling - NLL: 1.565, ECE: 0.064 
+
+Results saved to ./save_folder/save_results.csv
+Platt scaled model sved to ./save_folder/densenet/model_with_Platt.pth
+Done!
